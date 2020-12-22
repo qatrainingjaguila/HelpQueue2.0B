@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.qa.TicketBackend.dto.TicketDTO;
 import com.qa.TicketBackend.persistence.domain.Ticket;
 import com.qa.TicketBackend.service.TicketService;
 
@@ -41,8 +42,8 @@ public class TicketController {
 	}
 
 	@PostMapping("/ticket/createTicket")
-	public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
-		return new ResponseEntity<Ticket>(this.service.createTicket(ticket), HttpStatus.CREATED);
+	public ResponseEntity<TicketDTO> createTicket(@RequestBody Ticket ticket) {
+		return new ResponseEntity<TicketDTO>(this.service.createTicket(ticket), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/ticket/deleteTicket/{id}")

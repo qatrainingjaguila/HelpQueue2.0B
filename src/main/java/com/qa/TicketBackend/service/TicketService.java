@@ -5,7 +5,8 @@ import java.util.List;
 
 
 import org.springframework.stereotype.Service;
-
+import org.modelmapper.ModelMapper;
+import com.qa.TicketBackend.dto.TicketDTO;
 import com.qa.TicketBackend.persistence.domain.Ticket;
 import com.qa.TicketBackend.persistence.domain.Trainee;
 import com.qa.TicketBackend.persistence.repo.TicketRepo;
@@ -16,13 +17,20 @@ import com.qa.TicketBackend.utils.MyBeanUtils;
 public class TicketService {
 	private TicketRepo repo;
 	private TraineeRepo traineeRepo;
+	private final ModelMapper mapper;
+	
 
-	public TicketService(TicketRepo repo) {
+	public TicketService(TicketRepo repo, ModelMapper mapper) {
 		super();
 		this.repo = repo;
+		this.mapper = mapper;
 	}
+	
+	 private TicketDTO mapToDTO(Ticket ticket) {
+	        return this.mapper.map(ticket, TicketDTO.class);
+	    }
 
-	public Ticket createTicket(Ticket ticket) {
+	public TicketDTO createTicket(Ticket ticket) {
 		Ticket toSave = ticket;
 		
 		List<Trainee> trainees = this.traineeRepo.findTraineeByTraineeId(toSave.getTrainee());
@@ -30,7 +38,7 @@ public class TicketService {
 		toSave.setTrainee(currentTrainee);
 		Ticket saved = this.repo.save(toSave);
 		
-		return this.repo.save(saved);
+		return this.mapToDTO(this.repo.save(saved));
 	}
 
 	public List<Ticket> getTicket() {
