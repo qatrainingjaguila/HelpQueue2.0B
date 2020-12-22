@@ -7,12 +7,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.qa.TicketBackend.persistence.domain.Ticket;
+import com.qa.TicketBackend.persistence.domain.Trainee;
 import com.qa.TicketBackend.persistence.repo.TicketRepo;
+import com.qa.TicketBackend.persistence.repo.TraineeRepo;
 import com.qa.TicketBackend.utils.MyBeanUtils;
 
 @Service
 public class TicketService {
 	private TicketRepo repo;
+	private TraineeRepo traineeRepo;
 
 	public TicketService(TicketRepo repo) {
 		super();
@@ -20,7 +23,14 @@ public class TicketService {
 	}
 
 	public Ticket createTicket(Ticket ticket) {
-		return this.repo.save(ticket);
+		Ticket toSave = ticket;
+		
+		List<Trainee> trainees = this.traineeRepo.findTraineeByTraineeId(toSave.getTrainee());
+		Trainee currentTrainee = trainees.get(0);
+		toSave.setTrainee(currentTrainee);
+		Ticket saved = this.repo.save(toSave);
+		
+		return this.repo.save(saved);
 	}
 
 	public List<Ticket> getTicket() {

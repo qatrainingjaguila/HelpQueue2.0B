@@ -7,9 +7,12 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -51,10 +54,16 @@ public class Ticket {
 	
 	@Column(name = "topic")
 	private String topic;
+	
+	@ManyToOne(fetch = FetchType.LAZY) // Doesn't fetch data until an explicit call is made
+	@JoinColumn(name = "trainee", nullable = false, insertable = false, updatable = false) // foreign key column cannot
+																							// be updated, inserted or
+																							// null
+	private Trainee trainee;
 
 	public Ticket(Long id, @NotNull String title, @NotNull String author, @NotNull String description,
 			LocalDateTime timeCreated, @NotNull String urgency, String solution, boolean status, String email,
-			String topic) {
+			String topic, Trainee trainee) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -66,6 +75,7 @@ public class Ticket {
 		this.status = status;
 		this.email = email;
 		this.topic = topic;
+		this.trainee = trainee;
 	}
 
 	public Ticket() {
@@ -130,6 +140,14 @@ public class Ticket {
 
 	public boolean isStatus() {
 		return status;
+	}
+
+	public Trainee getTrainee() {
+		return trainee;
+	}
+
+	public void setTrainee(Trainee trainee) {
+		this.trainee = trainee;
 	}
 
 	public void setStatus(boolean status) {
