@@ -32,7 +32,7 @@ public class TicketController {
 	}
 
 	@GetMapping("/ticket/readTickets")
-	public ResponseEntity<List<Ticket>> getTicket() {
+	public ResponseEntity<List<TicketDTO>> getTicket() {
 		return ResponseEntity.ok(this.service.getTicket());
 	}
 
@@ -42,7 +42,7 @@ public class TicketController {
 	}
 
 	@PostMapping("/ticket/createTicket")
-	public ResponseEntity<TicketDTO> createTicket(@RequestBody Ticket ticket) {
+	public ResponseEntity<TicketDTO> createTicket(@RequestBody TicketDTO ticket) {
 		return new ResponseEntity<TicketDTO>(this.service.createTicket(ticket), HttpStatus.CREATED);
 	}
 

@@ -56,7 +56,7 @@ public class Ticket {
 	private String topic;
 	
 	@ManyToOne(fetch = FetchType.LAZY) // Doesn't fetch data until an explicit call is made
-	@JoinColumn(name = "trainee", nullable = false, insertable = false, updatable = false) // foreign key column cannot
+	@JoinColumn(name = "trainee", nullable = true, insertable = false, updatable = false) // foreign key column cannot
 																							// be updated, inserted or
 																							// null
 	private Trainee trainee;
@@ -75,7 +75,6 @@ public class Ticket {
 		this.status = status;
 		this.email = email;
 		this.topic = topic;
-		this.trainee = trainee;
 	}
 
 	public Ticket() {

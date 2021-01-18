@@ -8,6 +8,6 @@ import com.qa.TicketBackend.persistence.domain.Trainee;
 
 public interface TraineeRepo extends JpaRepository<Trainee,Long> {
 
-	List<Trainee> findTraineeByTraineeId(Trainee trainee);
+	List<Trainee> findTraineeByTraineeId(Long trainee);
 
 }
